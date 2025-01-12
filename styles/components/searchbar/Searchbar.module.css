@@ -1,0 +1,29 @@
+.searchbarContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+}
+
+.searchbarContainer input {
+    width: 100%;
+    padding: 8px;
+    font-size: var(--font-size-regular);
+    border: 1px solid var(--border-color);
+    background-color: rgb(241, 241, 241);
+    border-radius: 100px;
+}
+
+.searchbarIcon {
+    width: 15px;
+    height: 15px;
+}
+
+.searchbarContainer .placeholder {
+    position: absolute;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-regular);
+    display: flex;
+    align-items: center;
+}

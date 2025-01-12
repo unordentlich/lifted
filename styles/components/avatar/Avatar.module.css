@@ -1,0 +1,29 @@
+.avatar {
+    height: 100%;
+    width: auto;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.statusPoint {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    border: white 2px solid;
+    position: absolute;
+    bottom: 5px;
+    right: 0px;
+}
+
+.avatarContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
