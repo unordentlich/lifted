@@ -4,6 +4,7 @@
     --secondary-dark: #001524;
     --secondary-light: #15616D;
 
+    --secondary-light-50: #f0f9fa; /* Sehr hell */
     --secondary-light-100: #e5f4f6; /* Sehr hell */
     --secondary-light-200: #bfdde0;
     --secondary-light-300: #99c6cb;
@@ -38,15 +39,22 @@
     --border-color-light: #E9ECEF;
     --border-color-dark: #CED4DA;
 
+    --font-size-small: 12px;
     --font-size-regular: 14px;
     
     --font-weight-light: 300;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
+    --font-weight-semi-bold: 600;
     --font-weight-bold: 700;
 }
 
+html {
+    height: 100vh;
+    overflow: hidden;
+}
+
 body {
-    padding: 10px 20px;
+    padding: 0 20px;
     height: 100vh;
 }

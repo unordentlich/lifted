@@ -1,0 +1,69 @@
+.inlinePost {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-light-50);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 1000px;
+}
+
+.header {
+    display: flex;
+    height: 20px;
+    align-items: center;
+}
+
+.header .author {
+    display: flex;
+    font-weight: var(--font-weight-semi-bold);
+    gap: 8px;
+    color: var(--text-color);
+    align-items: center;
+    font-size: var(--font-size-regular);
+}
+
+.header .author img {
+    height: 20px;
+}
+
+.header .date {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
+}
+
+.content {
+    margin: 15px 0;
+    font-size: var(--font-size-regular);
+}
+
+.content img {
+    max-width: 55%;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+
+.action.like.active {
+    color: rgb(206, 56, 56);
+    fill: rgb(206, 56, 56);
+}
+
+.action span {
+    font-size: var(--font-size-small);
+}
