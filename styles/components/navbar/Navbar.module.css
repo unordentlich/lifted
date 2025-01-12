@@ -5,15 +5,7 @@
     justify-content: space-between;
     height: 50px;
     font-size: var(--font-size-regular);
-}
-
-.linkList {
-    display: flex;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-weight: var(--font-weight-medium);
+    margin: 0 10px;
 }
 
 .logo {
@@ -24,4 +16,55 @@
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+.sidebarNavigation {
+    padding: 20px 0;
+    font-weight: var(--font-weight-bold);
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebarNavigation ul {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    font-weight: var(--font-weight-bold);
+}
+
+.sidebarNavigation .navigationItem {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 100px;
+    padding: 10px 20px ;
+    transition: background-color 0.1s, color 0.1s;
+    color: #5a5a5a;
+}
+
+.sidebarNavigation .navigationItem svg {
+    color: #777777;
+}
+
+.sidebarNavigation .navigationItem.active {
+    background-color: rgba(60, 120, 150, var(--opacity-semi-transparent));
+    color: var(--secondary-light);
+}
+
+.sidebarNavigation .navigationItem.active svg {
+    color: var(--secondary-light);
+}
+
+.sidebarNavigation .navigationItem:hover, .sidebarNavigation .navigationItem:hover svg {
+    color: var(--secondary-light-900);
+}
+
+.sidebarNavigation .bottom {
+    margin-top: auto;
 }
