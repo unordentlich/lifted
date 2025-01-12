@@ -36,6 +36,7 @@
 .content {
     margin: 15px 0;
     font-size: var(--font-size-regular);
+    cursor: pointer;
 }
 
 .content img {
@@ -62,7 +63,14 @@
 
 .action.like.active {
     color: rgb(206, 56, 56);
-    fill: rgb(206, 56, 56);
+}
+
+.action.like:hover {
+    color: rgb(189, 109, 109);
+}
+
+.action:hover {
+    color: var(--color-text);
 }
 
 .action span {

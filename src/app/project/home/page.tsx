@@ -8,11 +8,11 @@ export default function Login() {
         <div style={{ display: "flex", flexDirection: "column" }}>
             <Navbar />
             <div className={styles.flex}>
-                <div style={{ width: '200px', position: 'relative' }}>
+                <div style={{ position: 'relative' }}>
                     <SidebarNavigation />
                 </div>
-                <div className={styles.pane}>
-                    <h3 style={{ marginBottom: '15px' }}>Home</h3>
+                <div className={styles.pane} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <h3 style={{ marginBottom: '20px', marginTop: '10px', width: '100%' }}>Home</h3>
                     <Feed />
                 </div>
             </div>
