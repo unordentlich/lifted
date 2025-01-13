@@ -7,7 +7,6 @@ import { RowDataPacket } from "mysql2";
 
 export async function POST(req: Request, res: NextApiResponse) {
   const url = req.url ? new URL(req.url) : null;
-  const params = url ? url.searchParams : new URLSearchParams();
 
   const { identifier, password } = await req.json();
 

@@ -57,7 +57,7 @@ export default function LoginForm() {
         const username = formData.get('username') as string;
         const password = formData.get('password') as string;
 
-        fetch('/project/login/api', {
+        fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function LoginForm() {
             const data = await response.json();
             if (response.ok) {
                 if (data.token) {
-                    document.cookie = `access_token=${data.token}`;
+                    document.cookie = `access_token=${data.token}; path=/;`;
                 }
                 
                 window.location.href = redirectUrl;
