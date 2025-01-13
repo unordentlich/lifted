@@ -7,6 +7,9 @@ import { GrUser, GrFormLock } from "react-icons/gr";
 
 export default function LoginForm() {
 
+    const redirectUrl = '/project/home';
+
+
     const [errorMessage, setErrorMessage] = React.useState('');
     var deleteTimer: any;
     function displayErrorMessage(message: string) {
@@ -18,14 +21,14 @@ export default function LoginForm() {
     }
 
     const validateInput = (form: HTMLElement) => {
-        if (form === null) return;
+        if (form === null) return false;
 
         const usernameElement: HTMLInputElement | null = form.querySelector('[name="username"]');
         const passwordElement: HTMLInputElement | null = form.querySelector('[name="password"]');
 
         if (usernameElement === null || passwordElement === null) {
             displayErrorMessage('An error occurred while trying to validate your input');
-            return;
+            return false;
         }
 
         const username = usernameElement.value;
@@ -33,19 +36,45 @@ export default function LoginForm() {
 
         if (!username || (username && username.length < 3)) {
             displayErrorMessage('Please enter a valid username');
-            return;
+            return false;
         }
 
         if (!password || password && password.length < 6) {
             displayErrorMessage('Please enter a valid password');
-            return;
+            return false;
         }
+
+        return true;
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        validateInput(e.target);
+        var result = validateInput(e.target);
+        if(!result) return;
+
+        const formData = new FormData(e.target);
+        const username = formData.get('username') as string;
+        const password = formData.get('password') as string;
+
+        fetch('/project/login/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ identifier: username, password }),
+        }).then(async (response) => {
+            const data = await response.json();
+            if (response.ok) {
+                if (data.token) {
+                    document.cookie = `access_token=${data.token}`;
+                }
+                
+                window.location.href = redirectUrl;
+            } else {
+                displayErrorMessage(data.message);
+            }
+        });
     }
 
     return (

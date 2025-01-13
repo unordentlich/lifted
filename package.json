@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "i": "^0.3.7",
     "javascript-time-ago": "^2.5.11",
+    "jose": "^5.9.6",
     "moment": "^2.30.1",
     "mysql2": "^3.12.0",
     "next": "15.1.4",

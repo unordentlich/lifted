@@ -10,7 +10,6 @@ export default async function Login() {
     try {
         if (pool) {
             const [rows]: any[] = await pool.execute('SELECT * FROM posts');
-            console.log(rows);
             for (const row of rows) {
                 posts.push(row);
             }
