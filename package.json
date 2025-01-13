@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "i": "^0.3.7",
+    "javascript-time-ago": "^2.5.11",
+    "moment": "^2.30.1",
     "mysql2": "^3.12.0",
     "next": "15.1.4",
+    "npm": "^11.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0"

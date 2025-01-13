@@ -2,8 +2,23 @@ import SidebarNavigation from "@/styles/components/sidenav/SidebarNavigation";
 import Navbar from "../../../../styles/components/navbar/Navbar";
 import styles from "./page.module.css";
 import Feed from "./components/feed/Feed";
+import pool from '@/lib/database';
 
-export default function Login() {
+export default async function Login() {
+    const posts = [];
+
+    try {
+        if (pool) {
+            const [rows]: any[] = await pool.execute('SELECT * FROM posts');
+            console.log(rows);
+            for (const row of rows) {
+                posts.push(row);
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
             <Navbar />
@@ -13,7 +28,7 @@ export default function Login() {
                 </div>
                 <div className={styles.pane} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <h3 style={{ marginBottom: '20px', marginTop: '10px', width: '100%' }}>Home</h3>
-                    <Feed />
+                    <Feed posts={posts} />
                 </div>
             </div>
         </div>

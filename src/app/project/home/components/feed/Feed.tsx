@@ -1,23 +1,13 @@
 import InlinePost from "../inlinepost/InlinePost";
 import styles from "./Feed.module.css";
 
-export default function Feed() {
+export default function Feed({ posts }: { posts: any[] }) {
     return (
         <div className={styles.feed}>
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
-            <InlinePost />
+            {posts.map((post: any) => {
+                console.log(post);
+                return <InlinePost key={post.id} post={post} />;
+            })}
         </div>
     );
 }
