@@ -1,3 +1,7 @@
+body {
+    padding: 0 !important;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -22,6 +26,12 @@
     gap: 15px;
 } 
 
+.form form input {
+    width: 100%;
+    padding-left: 30px !important;
+    color: var(--color-text);
+}
+
 .title {
     text-align: center;
     font-weight: var(--font-weight-medium);
@@ -34,4 +44,16 @@
     font-size: var(--font-size-small);
     color: var(--color-text-muted);
     margin-bottom: 20px;
+}
+
+.inputIconGroup {
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
