@@ -1,0 +1,78 @@
+.flexContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 20px 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+}
+
+.profileCard {
+    display: flex;
+    flex-direction: column;
+    background: rgb(71,185,227);
+    background: linear-gradient(21deg, var(--secondary-dark) 0%, var(--secondary-light) 100%);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profileCard .profileCardTopArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 200px;
+}
+
+.profileCardBottomArea {
+    background-color: var(--border-color-light);
+    border: 2px solid var(--border-color-dark);
+    height: 70px;
+    border-radius: 0 0 8px 8px;   
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nameInformation {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-top: 15px;
+}
+
+.profileName {
+    color: white;
+}
+
+.profileUsername {
+    color: white;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-small);
+}
+
+.cardItem {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    width: fit-content;
+}
+
+.cardItem .cardItemTitle {
+    font-size: var(--font-size-semi);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.cardItem .cardItemValue {
+    font-size: var(--font-size-semi);
+    color: var(--color-text);
+}   
