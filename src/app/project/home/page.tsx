@@ -3,15 +3,26 @@ import Navbar from "../../../../styles/components/navbar/Navbar";
 import styles from "./page.module.css";
 import Feed from "./components/feed/Feed";
 import pool from '@/lib/database';
+import { Post } from "@/types/Post";
 
 export default async function Login() {
-    const posts = [];
+    const posts: Post[] = [];
 
     try {
         if (pool) {
-            const [rows]: any[] = await pool.execute('SELECT * FROM posts');
+            const [rows]: any[] = await pool.execute('SELECT * FROM posts LEFT JOIN users ON posts.author = users.uuid;');
             for (const row of rows) {
-                posts.push(row);
+                let post: Post = {
+                    id: row.id,
+                    content: row.content,
+                    likes: row.likes,
+                    bookmarks: row.bookmarks,
+                    creationDate: row.creation_date,
+                    authorUuid: row.author,
+                    authorDisplayname: row.display_name,
+                    authorUsername: row.username,
+                };
+                posts.push(post);
             }
         }
     } catch (error) {
