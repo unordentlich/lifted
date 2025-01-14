@@ -21,9 +21,9 @@ export async function verifyToken(token: string) {
   try {
     const { payload, protectedHeader } = await jwtVerify(token, secretKey, {
       issuer: process.env.JWT_ISSUER || 'lifted',
-      audience: process.env.JWT_AUDIENCE || 'lifted',
     });
+    return payload;
   } catch (e) {
-    console.log("Token is invalid");
+    console.log("Token is invalid", e);
   }
 };

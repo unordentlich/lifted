@@ -5,11 +5,13 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import moment from "moment";
 import { Post } from "@/types/Post";
 import Link from "next/link";
+import NotFound from "@/styles/components/error/notFound/NotFound";
 
 
 export default function InlinePost({ post }: { post: Post }) {
     const liked = false;
-    console.log(post);
+
+    if(!post || !post.existing) return <NotFound object="post" />;
 
     return (
         <div className={styles.inlinePost}>
@@ -19,12 +21,14 @@ export default function InlinePost({ post }: { post: Post }) {
                     <Link href={`/project/profile/@${post.authorUsername}`}><span>{post.authorDisplayname}</span></Link>
                 </div>
                 <div className={styles.date}>
-                    <span title={new Date(post.creationDate).toLocaleString()}>{moment(new Date(post.creationDate)).startOf("minutes").fromNow()}</span>
+                    <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>
                 </div>
             </div>
+            <Link href={`../${post.authorUsername}/post/${post.id}`} replace={true}>
             <div className={styles.content}>
                 <p>{post.content}</p>
             </div>
+            </Link>
             <div className={styles.actions}>
                 <div className={styles.action + " " +  styles.like + " " + (liked && styles.active)}>
                     {liked ? <FaHeart /> : <FaRegHeart />}

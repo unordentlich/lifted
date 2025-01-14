@@ -6,7 +6,6 @@ export default function Feed({ posts }: { posts: Post[] }) {
     return (
         <div className={styles.feed}>
             {posts.map((post: any) => {
-                console.log(post);
                 return <InlinePost key={post.id} post={post} />;
             })}
         </div>

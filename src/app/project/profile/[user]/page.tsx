@@ -51,6 +51,8 @@ export default async function ProjectProfilePage({
                         authorUuid: row.author,
                         authorDisplayname: row.display_name,
                         authorUsername: row.username,
+                        views: row.views,
+                        existing: true,
                     });
                 }
             }
@@ -58,12 +60,9 @@ export default async function ProjectProfilePage({
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-            <Navbar />
-            <div className={styles.flexContainer}>
-                <div className={styles.container}>
-                    <Profile user={userObject} posts={posts} postAmount={postAmount} likesAmount={likesAmount} followerAmount={followerAmount} viewAmount={viewsAmount} />
-                </div>
+        <div className={styles.flexContainer}>
+            <div className={styles.container}>
+                <Profile user={userObject} posts={posts} postAmount={postAmount} likesAmount={likesAmount} followerAmount={followerAmount} viewAmount={viewsAmount} />
             </div>
         </div>
     );
