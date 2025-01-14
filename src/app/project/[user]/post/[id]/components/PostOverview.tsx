@@ -5,7 +5,7 @@ import { Post } from '@/types/Post';
 export default function PostOverview({ originPost }: { originPost: Post }) {
     return (
         <div>
-            <InlinePost post={originPost} />
+            <InlinePost post={originPost} className={styles.originPostCard} linkDeactivated={true}  />
         </div>
     )
 }

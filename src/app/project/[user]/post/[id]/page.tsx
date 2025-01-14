@@ -61,7 +61,7 @@ WHERE (id = ? AND users.username = ?);`, [userAccount.uuid, userAccount.uuid, p.
         <div className={styles.flexContainer}>
             {(!p.user || !p.id) && <NotFound object="post" />}
             <div className={styles.flex}>
-                <PostOverview originPost={postObject} />
+                <PostOverview originPost={postObject}/>
             </div>
         </div>
     )

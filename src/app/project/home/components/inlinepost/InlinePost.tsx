@@ -8,13 +8,14 @@ import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
 
 
-export default function InlinePost({ post }: { post: Post }) {
+export default function InlinePost({ post, className, linkDeactivated }: { post: Post, className: string, linkDeactivated?: boolean }) {
     const liked = false;
 
     if(!post || !post.existing) return <NotFound object="post" />;
 
+
     return (
-        <div className={styles.inlinePost}>
+        <div className={styles.inlinePost + " " + className}>
             <div className={styles.header}>
                 <div className={styles.author}>
                     <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" />
@@ -24,7 +25,7 @@ export default function InlinePost({ post }: { post: Post }) {
                     <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>
                 </div>
             </div>
-            <Link href={`../${post.authorUsername}/post/${post.id}`} replace={true}>
+            <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{pointerEvents: linkDeactivated ? 'none' : 'initial'}} >
             <div className={styles.content}>
                 <p>{post.content}</p>
             </div>
