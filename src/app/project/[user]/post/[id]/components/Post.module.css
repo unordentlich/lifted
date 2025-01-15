@@ -8,18 +8,25 @@
     margin-top: 20px;
 }
 
-.replyBar input {
+.replyBar textarea {
     width: 100%;
-    padding-left: 35px;
-    padding-right: 35px;
+    min-height: 35px;
+    height: 35px;
+    max-height: 300px;
     border-radius: 100px;
     background-color: white;
+    padding: 10px 35px;
+    resize: none;
+    border: 1px solid var(--border-color-dark);
+    font-family: Arial, Helvetica, sans-serif;
+    outline: 0 solid rgba(94, 107, 122, 0.138);
+    transition: outline 0.1s;
 }
 
 .replyBar .replyIcon {
     position: absolute;
     left: 10px;
-    top: 50%;
+    top: 18px;
     transform: translateY(-50%);
     color: var(--primary);
     cursor: pointer;
@@ -28,11 +35,9 @@
 .replyBar button {
     position: absolute;
     border-radius: 1000px;
-    right: 4px;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    height: 80%;
+    right: 3px;
+    height: 30px;
+    bottom: 7px;
     display: flex;
     align-items: center;
     padding: 0 8px !important;
