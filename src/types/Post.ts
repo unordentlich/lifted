@@ -1,5 +1,6 @@
 export interface Post {
     id?: number;
+    uuid?: string;
     content?: string;
     likes?: number;
     bookmarks?: number;
@@ -9,4 +10,5 @@ export interface Post {
     authorUsername?: string;
     views?: number;
     existing: boolean;
+    refPost?: Post;
 }
