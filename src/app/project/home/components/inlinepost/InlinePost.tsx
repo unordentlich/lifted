@@ -8,16 +8,20 @@ import { Post } from "@/types/Post";
 import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
+import { useEffect, useRef } from "react";
 
-//@todo concept: Return height of the arrow to the parent component via callback
-
-export default function InlinePost({ post, className, origin, reply }: { post: Post, className: string, origin?: boolean, reply?: boolean }) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void }) {
     const liked = false;
 
     if (!post || !post.existing) return <NotFound object="post" />;
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        addArrowLength && addArrowLength(ref.current?.getBoundingClientRect().height);
+    });
 
     if (origin) {
-        return (<div className={styles.inlinePost + " " + className}>
+        return (<div className={styles.inlinePost + " " + className} ref={ref}>
             <div className={styles.header}>
                 <div className={styles.author}>
                     <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" />
@@ -56,7 +60,7 @@ export default function InlinePost({ post, className, origin, reply }: { post: P
     }
 
     return (
-        <div className={styles.outerReplyBox}>
+        <div className={styles.outerReplyBox} ref={ref}>
             <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" className={styles.replyAvatar} />
             <div className={styles.inlinePost + " " + className + " " + (reply && styles.widthLimit)}>
                 <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: reply ? 'none' : 'initial' }} >

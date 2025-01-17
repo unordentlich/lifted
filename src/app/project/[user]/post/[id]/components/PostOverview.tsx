@@ -1,3 +1,4 @@
+'use client';
 import InlinePost from '@/app/project/home/components/inlinepost/InlinePost';
 import { Post } from '@/types/Post';
 import styles from './Post.module.css';
@@ -8,6 +9,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
 
     const originPost = posts[0];
 
+    const elementHeights: number[] = [];
     const renderReplies = (parentPost: Post, posts: Post[]) => {
         const replies = posts.filter(post => post.refPost?.uuid === parentPost.uuid);
 
@@ -16,7 +18,10 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         let arrowCalculator = 30;
         let localArray: any[] = [], localArrowArray: any[] = [];
         replies.map(reply => {
-            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply />;
+            const addArrowLength = (e: any) => {
+                elementHeights.push = e;
+            }
+            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply addArrowLength={addArrowLength} />;
 
             localArrowArray.push(<ReplyArrow height={arrowCalculator} />);
             localArray.push(replyElement);
