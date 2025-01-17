@@ -15,13 +15,14 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
 
         if (replies.length === 0) return null;
 
-        let arrowCalculator = 30;
+        let arrowCalculator = 0;
         let localArray: any[] = [], localArrowArray: any[] = [];
         replies.map(reply => {
             const [dynamicArrowHeight, setDynamicArrowHeight] = useState(0);
             const addArrowLength = (e: any) => {
                 console.log('passing height', e + 'px to arrow');
-                setDynamicArrowHeight(e);
+                arrowCalculator += e / 2.25;
+                setDynamicArrowHeight(arrowCalculator);
             }
             let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply addArrowLength={addArrowLength} />;
 
