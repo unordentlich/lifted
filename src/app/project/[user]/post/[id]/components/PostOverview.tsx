@@ -1,5 +1,3 @@
-'use client';
-
 import InlinePost from '@/app/project/home/components/inlinepost/InlinePost';
 import { Post } from '@/types/Post';
 import styles from './Post.module.css';
@@ -16,8 +14,6 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         if (replies.length === 0) return null;
 
         let arrowCalculator = 30;
-
-
         let localArray: any[] = [], localArrowArray: any[] = [];
         replies.map(reply => {
             let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply />;

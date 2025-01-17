@@ -9,8 +9,6 @@ export default function ReplyBar() {
         var element = e.target;
         const defaultHeight = 35;
 
-        console.log(element.scrollHeight);
-
         element.style.height = "auto";
         element.style.height = (element.scrollHeight > defaultHeight ? element.scrollHeight : defaultHeight) + 'px';
 

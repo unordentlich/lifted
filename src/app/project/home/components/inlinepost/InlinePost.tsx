@@ -1,3 +1,4 @@
+'use client';
 import Avatar from "@/styles/components/avatar/Avatar";
 import styles from "./InlinePost.module.css";
 import { GrBookmark, GrChat, GrShareOption } from "react-icons/gr";
@@ -8,6 +9,7 @@ import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
 
+//@todo concept: Return height of the arrow to the parent component via callback
 
 export default function InlinePost({ post, className, origin, reply }: { post: Post, className: string, origin?: boolean, reply?: boolean }) {
     const liked = false;
