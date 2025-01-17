@@ -12,19 +12,24 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
 
     const renderReplies = (parentPost: Post, posts: Post[]) => {
         const replies = posts.filter(post => post.refPost?.uuid === parentPost.uuid);
+        console.log(replies);
 
         if (replies.length === 0) return null;
 
-        let arrowCalculator = 0;
+        let lastArrowPosition = 0;
+        const arrowSpace = 25;
         let localArray: any[] = [], localArrowArray: any[] = [];
         replies.map(reply => {
             const [dynamicArrowHeight, setDynamicArrowHeight] = useState(0);
             const addArrowLength = (e: any) => {
-                console.log('passing height', e + 'px to arrow');
-                arrowCalculator += e / 2.25;
-                setDynamicArrowHeight(arrowCalculator);
+                if(lastArrowPosition === 0) {
+                    lastArrowPosition = e - 30;
+                }
+                let thisHeight = e - lastArrowPosition;
+                lastArrowPosition = e + arrowSpace;
+                setDynamicArrowHeight(thisHeight);
             }
-            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply addArrowLength={addArrowLength} />;
+            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} depth={reply.depth} reply addArrowLength={addArrowLength} />;
 
             localArrowArray.push(<ReplyArrow height={dynamicArrowHeight} />);
             localArray.push(replyElement);
@@ -35,7 +40,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         });
 
         return (
-            <div key={parentPost.uuid + '-container'} className={styles.bottomFlex}>
+            <div key={parentPost.uuid + '-container'} className={styles.bottomFlex + " " + styles[`depth${parentPost.depth}`]}>
                 <div className={styles.verticalFlex + " " + styles.arrows} key={parentPost.uuid + "-arrowContainer"}>
                     {localArrowArray}
                 </div>

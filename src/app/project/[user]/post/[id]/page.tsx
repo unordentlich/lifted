@@ -85,7 +85,8 @@ FROM reply_hierarchy rh
                         authorUsername: element.username,
                         views: element.views,
                         existing: true,
-                        refPost: posts.find((p: Post) => p.uuid === element.response_to) || undefined
+                        refPost: posts.find((p: Post) => p.uuid === element.response_to) || undefined,
+                        depth: element.depth
                     });
                 });
             }

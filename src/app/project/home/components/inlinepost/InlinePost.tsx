@@ -10,14 +10,14 @@ import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useEffect, useRef } from "react";
 
-export default function InlinePost({ post, className, origin, reply, addArrowLength }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void }) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void}) {
     const liked = false;
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        addArrowLength && addArrowLength(ref.current?.getBoundingClientRect().height);
+        addArrowLength && addArrowLength(ref.current?.getBoundingClientRect().y);
     });
 
     if (origin) {
