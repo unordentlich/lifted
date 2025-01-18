@@ -11,4 +11,5 @@ export interface Post {
     views?: number;
     existing: boolean;
     refPost?: Post;
+    depth?: number;
 }
