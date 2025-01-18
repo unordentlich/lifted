@@ -10,9 +10,9 @@
     height: 100%;
     background-color: var(--border-color-dark);
     border-radius: 100px 100px 0 0;
+    transition: height 0.5s, opacity 2s;
 }
 
 .arrowEnd {
     margin-top: -1px;
-
 }

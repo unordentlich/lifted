@@ -21,6 +21,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         let localArray: any[] = [], localArrowArray: any[] = [];
         replies.map(reply => {
             const [dynamicArrowHeight, setDynamicArrowHeight] = useState(0);
+            const [visible, setVisible] = useState(0);
             const addArrowLength = (e: any) => {
                 if(lastArrowPosition === 0) {
                     lastArrowPosition = e - 30;
@@ -28,10 +29,11 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
                 let thisHeight = e - lastArrowPosition;
                 lastArrowPosition = e + arrowSpace;
                 setDynamicArrowHeight(thisHeight);
+                setVisible(1);
             }
-            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} depth={reply.depth} reply addArrowLength={addArrowLength} />;
+            let replyElement = <InlinePost post={reply} className={styles.replyCard} key={reply.uuid} reply addArrowLength={addArrowLength} />;
 
-            localArrowArray.push(<ReplyArrow height={dynamicArrowHeight} />);
+            localArrowArray.push(<ReplyArrow height={dynamicArrowHeight} visible={visible} />);
             localArray.push(replyElement);
 
             if (posts.filter(post => post.refPost?.uuid === reply.uuid).length > 0) {
