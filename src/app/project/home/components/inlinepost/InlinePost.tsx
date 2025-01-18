@@ -10,7 +10,7 @@ import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useEffect, useRef } from "react";
 
-export default function InlinePost({ post, className, origin, reply, addArrowLength }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void}) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
     const liked = false;
 
     if (!post || !post.existing) return <NotFound object="post" />;
@@ -19,6 +19,12 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
     useEffect(() => {
         addArrowLength && addArrowLength(ref.current?.getBoundingClientRect().y);
     });
+
+    const addNewPostWithRef = (p: Post) => {
+        p.refPost = post;
+        p.depth = (post.depth || 0) + 1;
+        addNewPost && addNewPost(p);
+    }
 
     if (origin) {
         return (<div className={styles.inlinePost + " " + className} ref={ref}>
@@ -54,7 +60,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     <span>102</span>
                 </div>
             </div>
-            <ReplyBar />
+            <ReplyBar postUuid={post.uuid} addNewPost={addNewPostWithRef} />
 
         </div>);
     }

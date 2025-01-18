@@ -1,9 +1,13 @@
 'use client';
 
+import { useId, useState } from 'react';
 import styles from '../Post.module.css';
 import { GrChat, GrSend } from 'react-icons/gr';
+import { Post } from '@/types/Post';
 
-export default function ReplyBar() {
+export default function ReplyBar({ postUuid, addNewPost }: { postUuid?: string, addNewPost?: (post: Post) => void }) {
+    const replyTextAreaId = useId();
+    const [replyButtonDisabled, setReplyButtonDisabled] = useState(false);
 
     const autoGrow = (e: any) => {
         var element = e.target;
@@ -19,11 +23,40 @@ export default function ReplyBar() {
         }
     }
 
+    const sendReply = async () => {
+        const replyTextArea = (document.getElementById(replyTextAreaId) as HTMLTextAreaElement).value;
+        if(replyTextArea.length === 0) return;
+
+        replyButtonDisabled && setReplyButtonDisabled(true);
+
+        const response = await fetch(`/api/post/${postUuid}/reply`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: replyTextArea }),
+        });
+
+        let data = await response.json();
+        console.log(data);
+        let post: Post = {
+            uuid: data.reply.uuid,
+            id: data.reply.id,
+            content: data.reply.content,
+            creationDate: new Date(data.reply.creationDate),
+            existing: true,
+        };
+        addNewPost && addNewPost(post);
+
+        (document.getElementById(replyTextAreaId) as HTMLTextAreaElement).value = '';
+        setReplyButtonDisabled(false);
+    }
+
     return (
         <div className={styles.replyBar} >
             <GrChat className={styles.replyIcon} />
-            <textarea rows={1} onInput={autoGrow} placeholder="Reply to this post" />
-            <button>
+            <textarea rows={1} onInput={autoGrow} placeholder="Reply to this post" id={replyTextAreaId}  />
+            <button onClick={sendReply} disabled={replyButtonDisabled} >
                 <GrSend />
             </button>
         </div>

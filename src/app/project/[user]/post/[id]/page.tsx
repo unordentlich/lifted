@@ -69,7 +69,7 @@ SELECT
     (SELECT COUNT(*) FROM bookmarks WHERE bookmarks.post_uuid = rh.reply_uuid) AS bookmarkAmount,
     (SELECT EXISTS(SELECT * FROM bookmarks WHERE bookmarks.post_uuid = rh.reply_uuid AND bookmarks.booker_uuid = ?)) AS hasBookmarked
 FROM reply_hierarchy rh
-         LEFT JOIN users ON users.uuid = rh.author ORDER BY rh.depth, rh.creation_date;
+         LEFT JOIN users ON users.uuid = rh.author ORDER BY rh.depth, rh.creation_date DESC;
 `, [p.id, userAccount.uuid, userAccount.uuid]);
             if (rows.length > 0) {
                 rows.forEach((element: any, index: number) => {
