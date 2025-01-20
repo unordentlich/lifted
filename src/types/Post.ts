@@ -12,4 +12,6 @@ export interface Post {
     existing: boolean;
     refPost?: Post;
     depth?: number;
+    hasLiked?: boolean;
+    hasBookmarked?: boolean;
 }

@@ -30,20 +30,40 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return new NextResponse(JSON.stringify({ message: "You must be logged in to perform this action" }), { status: 401 });
   }
 
+  if (!pool) {
+    return new NextResponse(JSON.stringify({ message: "An error occurred while trying to perform the action" }), { status: 500 });
+  }
+
   if (action === 'like') {
-    // Like the post
+    const [rows]: any = await pool.query(`
+      INSERT INTO likes (likes.post_uuid, liker_uuid)
+SELECT ?, ?
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM likes
+    WHERE liker_uuid = ? AND post_uuid = ?
+);`, [postUuid, userAccount.uuid, userAccount.uuid, postUuid]);
+
+    if (!rows.affectedRows || rows.affectedRows === 0) {
+      return new NextResponse(JSON.stringify({ message: "Already liked" }), { status: 400 });
+    }
+
+    return new NextResponse(JSON.stringify({ message: "Post liked" }), { status: 200 });
   } else if (action === 'dislike') {
-    // Dislike the post
+    const [rows]: any = await pool.query(`
+      DELETE FROM likes WHERE post_uuid = ? AND liker_uuid = ?;`, [postUuid, userAccount.uuid]);
+
+    if (!rows.affectedRows || rows.affectedRows === 0) {
+      return new NextResponse(JSON.stringify({ message: "Post not liked before" }), { status: 400 });
+    }
+
+    return new NextResponse(JSON.stringify({ message: "Post like removed" }), { status: 200 });
   } else if (action === 'reply') {
     let { content } = { content: '' };
     try {
       ({ content } = await req.json());
     } catch (error) {
       return new NextResponse(JSON.stringify({ message: "Invalid request" }), { status: 400 });
-    }
-
-    if (!pool) {
-      return new NextResponse(JSON.stringify({ message: "An error occurred while trying to reply to the post" }), { status: 500 });
     }
 
     const [rows]: any = await pool.query(`
@@ -68,14 +88,15 @@ SELECT id, uuid, creation_date FROM posts WHERE id = LAST_INSERT_ID();
       creationDate: new Date(rows[1][0].creation_date),
       existing: true,
     };
-    return new NextResponse(JSON.stringify({ message: "Reply posted",
+    return new NextResponse(JSON.stringify({
+      message: "Reply posted",
       reply: {
         id: post.id,
         uuid: post.uuid,
         content: post.content,
         creationDate: post.creationDate,
       }
-     }), { status: 200 });
+    }), { status: 200 });
   } else {
     return new NextResponse(JSON.stringify({ message: "Invalid action" }), { status: 400 });
   }

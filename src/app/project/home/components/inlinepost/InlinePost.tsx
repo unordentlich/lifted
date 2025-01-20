@@ -8,10 +8,10 @@ import { Post } from "@/types/Post";
 import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
-    const liked = false;
+    const [likeState, setLikeState] = useState(post.hasLiked || false);
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
@@ -24,6 +24,23 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
         p.refPost = post;
         p.depth = (post.depth || 0) + 1;
         addNewPost && addNewPost(p);
+    }
+
+    const toggleLike = async () => {
+        const response = await fetch(`/api/post/${post.uuid}/${likeState ? `dislike`: `like`}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        });
+
+        if (response.ok) {
+            const newPost = { ...post };
+            setLikeState(!likeState);
+            post.likes = likeState ? (newPost.likes ?? 0) - 1 : (newPost.likes ?? 0) + 1;
+            post.hasLiked = likeState;
+        }
     }
 
     if (origin) {
@@ -43,8 +60,8 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                 </div>
             </Link>
             <div className={styles.actions}>
-                <div className={styles.action + " " + styles.like + " " + (liked && styles.active)}>
-                    {liked ? <FaHeart /> : <FaRegHeart />}
+                <div className={styles.action + " " + styles.like + " " + (likeState && styles.active)} onClick={toggleLike}>
+                    {likeState ? <FaHeart /> : <FaRegHeart />}
                     <span>{post.likes}</span>
                 </div>
                 <div className={styles.action}>
@@ -75,8 +92,8 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     </div>
                 </Link>
                 <div className={styles.actions}>
-                    <div className={styles.action + " " + styles.like + " " + (liked && styles.active)}>
-                        {liked ? <FaHeart /> : <FaRegHeart />}
+                    <div className={styles.action + " " + styles.like + " " + (likeState && styles.active)} onClick={toggleLike}>
+                        {likeState ? <FaHeart /> : <FaRegHeart />}
                         <span>{post.likes}</span>
                     </div>
                     <div className={styles.action}>

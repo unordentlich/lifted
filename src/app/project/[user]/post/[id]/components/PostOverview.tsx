@@ -19,7 +19,38 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         setPostsArray((prevPosts) => [...prevPosts, post]);
     };
 
-    const renderReplies = (parentPost: Post) => {
+    const renderReplies = (parentPost: Post) => { // backup function without arrows
+        const replies = postsArray
+            .filter((post) => post.refPost?.uuid === parentPost.uuid)
+            .sort((a, b) => new Date(b.creationDate!).getTime() - new Date(a.creationDate!).getTime());
+
+        if (replies.length === 0) return null;
+
+        return (
+            <div
+                key={`${parentPost.uuid}-container`}
+                className={styles.bottomFlex + ' ' + styles[`depth${parentPost.depth}`]}
+            >
+                <div className={styles.verticalFlex}>
+                    {replies.map((reply) => (
+                        <div key={reply.uuid}>
+                            <InlinePost
+                                key={reply.uuid}
+                                post={reply}
+                                className={styles.replyCard}
+                                reply
+                                addNewPost={addNewPost}
+                            />
+                            {renderReplies(reply)}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+
+    /**const renderReplies = (parentPost: Post) => {
         const replies = postsArray
             .filter((post) => post.refPost?.uuid === parentPost.uuid)
             .sort((a, b) => new Date(b.creationDate!).getTime() - new Date(a.creationDate!).getTime());
@@ -81,9 +112,9 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
                 </div>
             </div>
         );
-    };
+    };**/
 
-    const renderedReplies = useMemo(() => renderReplies(originPost!), [postsArray, arrowStates]);
+    const renderedReplies = useMemo(() => renderReplies(originPost!), [postsArray]); // removed arrowStates from memo deps due to massive lags
 
     return (
         <div>

@@ -86,7 +86,9 @@ FROM reply_hierarchy rh
                         views: element.views,
                         existing: true,
                         refPost: posts.find((p: Post) => p.uuid === element.response_to) || undefined,
-                        depth: element.depth
+                        depth: element.depth,
+                        hasLiked: element.hasLiked,
+                        hasBookmarked: element.hasBookmarked
                     });
                 });
             }
