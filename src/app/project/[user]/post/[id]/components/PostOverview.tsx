@@ -3,7 +3,7 @@ import InlinePost from '@/app/project/home/components/inlinepost/InlinePost';
 import { Post } from '@/types/Post';
 import styles from './Post.module.css';
 import ReplyArrow from './replyArrow/ReplyArrow';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 /**
  * Note: The arrow calculation got built mainly by the use of artificial intelligence (ChatGPT) due to its complexity :')
@@ -13,12 +13,21 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
     const originPost = posts.find((post) => post.depth === 0);
 
     const [postsArray, setPostsArray] = useState(posts);
+    const [activeReplyBar, setActiveReplyBar] = useState('');
     const [arrowStates, setArrowStates] = useState<{ [key: string]: { height: number; visible: boolean } }>({});
+
+    useEffect(() => {
+        console.log('Aktueller State:', activeReplyBar);
+    }, [activeReplyBar]);
 
     const addNewPost = (parentPost: Post, post: Post) => {
         setPostsArray((prevPosts) => [...prevPosts, post]);
         parentPost.commentAmount = (parentPost.commentAmount || 0) + 1;
     };
+
+    const toggleReplyBar = (postUuid: string) => {
+        setActiveReplyBar((prev) => (prev === postUuid ? '' : postUuid));
+    }
 
     const renderReplies = (parentPost: Post) => { // backup function without arrows
         const replies = postsArray
@@ -41,6 +50,8 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
                                 className={styles.replyCard}
                                 reply
                                 addNewPost={(post) => addNewPost(parentPost, post)}
+                                globalReplyBarState={activeReplyBar}
+                                onReplyBarToggle={toggleReplyBar}
                             />
                             {renderReplies(reply)}
                         </div>
@@ -115,7 +126,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
         );
     };**/
 
-    const renderedReplies = useMemo(() => renderReplies(originPost!), [postsArray]); // removed arrowStates from memo deps due to massive lags
+    const renderedReplies = useMemo(() => renderReplies(originPost!), [postsArray, activeReplyBar]); // removed arrowStates from memo deps due to massive lags
 
     return (
         <div>

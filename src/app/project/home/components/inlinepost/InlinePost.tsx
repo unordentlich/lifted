@@ -1,7 +1,7 @@
 'use client';
 import Avatar from "@/styles/components/avatar/Avatar";
 import styles from "./InlinePost.module.css";
-import { GrBookmark, GrChat, GrShareOption } from "react-icons/gr";
+import { GrChat, GrShareOption } from "react-icons/gr";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import moment from "moment";
@@ -9,19 +9,18 @@ import { Post } from "@/types/Post";
 import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost, globalReplyBarState, onReplyBarToggle }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void, globalReplyBarState?: string, onReplyBarToggle?: (postUuid: string) => void }) {
     const [likeState, setLikeState] = useState(post.hasLiked || false);
     const [bookmarkState, setBookmarkState] = useState(post.hasBookmarked || false);
-    console.log(post);
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
+    /**useEffect(() => {
         addArrowLength && addArrowLength(ref.current?.getBoundingClientRect().y);
-    });
+    });**/
 
     const addNewPostWithRef = (p: Post) => {
         p.refPost = post;
@@ -124,7 +123,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                         {likeState ? <FaHeart /> : <FaRegHeart />}
                         <span>{post.likes}</span>
                     </div>
-                    <div className={styles.action}>
+                    <div className={styles.action} onClick={() => { onReplyBarToggle && onReplyBarToggle(post.uuid!) }}>
                         <GrChat />
                         <span>{post.commentAmount}</span>
                     </div>
@@ -140,6 +139,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                         <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>
                     </div>}
                 </div>
+                {(globalReplyBarState === post.uuid) && <ReplyBar postUuid={post.uuid} addNewPost={addNewPostWithRef} />}
             </div>
         </div>
     );

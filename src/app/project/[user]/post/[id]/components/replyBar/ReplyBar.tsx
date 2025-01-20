@@ -45,6 +45,9 @@ export default function ReplyBar({ postUuid, addNewPost }: { postUuid?: string, 
             content: data.reply.content,
             creationDate: new Date(data.reply.creationDate),
             existing: true,
+            likes: 0,
+            bookmarks: 0,
+            commentAmount: 0,
         };
         addNewPost && addNewPost(post);
 
