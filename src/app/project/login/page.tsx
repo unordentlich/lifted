@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import '@/styles/branding.css';
 import variables from '@/lib/variables';
 import LoginForm from "./components/LoginForm";
+import './page.static.css'
 
 export default function Login() {
     return (

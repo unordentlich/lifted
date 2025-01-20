@@ -15,8 +15,9 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
     const [postsArray, setPostsArray] = useState(posts);
     const [arrowStates, setArrowStates] = useState<{ [key: string]: { height: number; visible: boolean } }>({});
 
-    const addNewPost = (post: Post) => {
+    const addNewPost = (parentPost: Post, post: Post) => {
         setPostsArray((prevPosts) => [...prevPosts, post]);
+        parentPost.commentAmount = (parentPost.commentAmount || 0) + 1;
     };
 
     const renderReplies = (parentPost: Post) => { // backup function without arrows
@@ -39,7 +40,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
                                 post={reply}
                                 className={styles.replyCard}
                                 reply
-                                addNewPost={addNewPost}
+                                addNewPost={(post) => addNewPost(parentPost, post)}
                             />
                             {renderReplies(reply)}
                         </div>
@@ -123,7 +124,7 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
                     post={originPost}
                     className={styles.originPostCard}
                     origin
-                    addNewPost={addNewPost}
+                    addNewPost={(post) => addNewPost(originPost, post)}
                 />
             )}
             {renderedReplies}

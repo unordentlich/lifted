@@ -12,7 +12,6 @@ export default function authenticate(handler: NextApiHandler) {
 
     try {
       const decoded = verifyToken(token);
-      req.user = decoded;
       return handler(req, res);
     } catch {
       return res.status(401).json({ message: 'Unauthorized' });

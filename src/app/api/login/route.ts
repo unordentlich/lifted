@@ -1,11 +1,11 @@
-import { NextApiResponse } from "next";
-import db from "@/lib/database"
+import db from "@/lib/database";
 import { validatePassword } from "@/lib/encryption";
 import { generateToken } from "@/lib/jwtUtils";
 import { RowDataPacket } from "mysql2";
+import { NextApiResponse } from "next";
 
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
   const url = req.url ? new URL(req.url) : null;
 
   const { identifier, password } = await req.json();

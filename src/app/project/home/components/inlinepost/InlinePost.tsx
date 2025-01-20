@@ -10,8 +10,9 @@ import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useEffect, useRef, useState } from "react";
 
-export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
     const [likeState, setLikeState] = useState(post.hasLiked || false);
+    console.log(post);
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
@@ -27,7 +28,12 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
     }
 
     const toggleLike = async () => {
-        const response = await fetch(`/api/post/${post.uuid}/${likeState ? `dislike`: `like`}`, {
+        const newPost = { ...post };
+        setLikeState(!likeState);
+        post.likes = likeState ? (newPost.likes ?? 0) - 1 : (newPost.likes ?? 0) + 1;
+        post.hasLiked = likeState;
+
+        const response = await fetch(`/api/post/${post.uuid}/${likeState ? `dislike` : `like`}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,7 +41,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
             credentials: 'same-origin'
         });
 
-        if (response.ok) {
+        if (!response.ok) { // revert like state if request failed
             const newPost = { ...post };
             setLikeState(!likeState);
             post.likes = likeState ? (newPost.likes ?? 0) - 1 : (newPost.likes ?? 0) + 1;
@@ -66,7 +72,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                 </div>
                 <div className={styles.action}>
                     <GrChat />
-                    <span>{post.bookmarks}</span>
+                    <span>{post.commentAmount}</span>
                 </div>
                 <div className={styles.action}>
                     <GrBookmark />
@@ -98,7 +104,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     </div>
                     <div className={styles.action}>
                         <GrChat />
-                        <span>{post.bookmarks}</span>
+                        <span>{post.commentAmount}</span>
                     </div>
                     <div className={styles.action}>
                         <GrBookmark />

@@ -67,7 +67,8 @@ SELECT
     (SELECT COUNT(*) FROM likes WHERE likes.post_uuid = rh.reply_uuid) AS likeAmount,
     (SELECT EXISTS(SELECT * FROM likes WHERE likes.post_uuid = rh.reply_uuid AND likes.liker_uuid = ?)) AS hasLiked,
     (SELECT COUNT(*) FROM bookmarks WHERE bookmarks.post_uuid = rh.reply_uuid) AS bookmarkAmount,
-    (SELECT EXISTS(SELECT * FROM bookmarks WHERE bookmarks.post_uuid = rh.reply_uuid AND bookmarks.booker_uuid = ?)) AS hasBookmarked
+    (SELECT EXISTS(SELECT * FROM bookmarks WHERE bookmarks.post_uuid = rh.reply_uuid AND bookmarks.booker_uuid = ?)) AS hasBookmarked,
+    (SELECT COUNT(*) FROM posts WHERE posts.response_to = rh.reply_uuid) AS replyAmount
 FROM reply_hierarchy rh
          LEFT JOIN users ON users.uuid = rh.author ORDER BY rh.depth, rh.creation_date DESC;
 `, [p.id, userAccount.uuid, userAccount.uuid]);
@@ -88,7 +89,8 @@ FROM reply_hierarchy rh
                         refPost: posts.find((p: Post) => p.uuid === element.response_to) || undefined,
                         depth: element.depth,
                         hasLiked: element.hasLiked,
-                        hasBookmarked: element.hasBookmarked
+                        hasBookmarked: element.hasBookmarked,
+                        commentAmount: element.replyAmount
                     });
                 });
             }

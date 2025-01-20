@@ -100,6 +100,4 @@ SELECT id, uuid, creation_date FROM posts WHERE id = LAST_INSERT_ID();
   } else {
     return new NextResponse(JSON.stringify({ message: "Invalid action" }), { status: 400 });
   }
-
-
 }

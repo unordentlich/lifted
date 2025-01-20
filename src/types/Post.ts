@@ -14,4 +14,5 @@ export interface Post {
     depth?: number;
     hasLiked?: boolean;
     hasBookmarked?: boolean;
+    commentAmount?: number;
 }
