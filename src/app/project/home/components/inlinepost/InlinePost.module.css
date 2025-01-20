@@ -75,6 +75,10 @@
     color: rgb(206, 56, 56);
 }
 
+.action.bookmark.active {
+    fill: var(--primary-color-light);
+}
+
 .action.like:hover {
     color: rgb(189, 109, 109);
 }

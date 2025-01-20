@@ -58,6 +58,33 @@ WHERE NOT EXISTS (
     }
 
     return new NextResponse(JSON.stringify({ message: "Post like removed" }), { status: 200 });
+  } else if (action === 'bookmark') {
+    const [rows]: any = await pool.query(`
+      INSERT INTO bookmarks (bookmarks.post_uuid, booker_uuid)
+SELECT ?, ?
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM bookmarks
+    WHERE booker_uuid = ? AND post_uuid = ?
+);`, [postUuid, userAccount.uuid, userAccount.uuid, postUuid]);
+
+
+    if (!rows.affectedRows || rows.affectedRows === 0) {
+      return new NextResponse(JSON.stringify({ message: "Post already bookmarked" }), { status: 400 });
+    }
+
+    return new NextResponse(JSON.stringify({ message: "Post bookmarked" }), { status: 200 });
+
+  } else if(action === 'unbookmark') {
+    const [rows]: any = await pool.query(`
+      DELETE FROM bookmarks WHERE post_uuid = ? AND booker_uuid = ?;`, [postUuid, userAccount.uuid]);
+
+    if (!rows.affectedRows || rows.affectedRows === 0) {
+      return new NextResponse(JSON.stringify({ message: "Post not bookmarked before" }), { status: 400 });
+    }
+
+    return new NextResponse(JSON.stringify({ message: "Post bookmark removed" }), { status: 200 });
+
   } else if (action === 'reply') {
     let { content } = { content: '' };
     try {

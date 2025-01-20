@@ -3,6 +3,7 @@ import Avatar from "@/styles/components/avatar/Avatar";
 import styles from "./InlinePost.module.css";
 import { GrBookmark, GrChat, GrShareOption } from "react-icons/gr";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import moment from "moment";
 import { Post } from "@/types/Post";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void }) {
     const [likeState, setLikeState] = useState(post.hasLiked || false);
+    const [bookmarkState, setBookmarkState] = useState(post.hasBookmarked || false);
     console.log(post);
 
     if (!post || !post.existing) return <NotFound object="post" />;
@@ -49,6 +51,26 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
         }
     }
 
+    const toggleBookmark = async () => {
+        setBookmarkState(!bookmarkState);
+        post.bookmarks = (post.bookmarks ?? 0) + (bookmarkState ? -1 : 1);
+        post.hasBookmarked = bookmarkState;
+
+        const response = await fetch(`/api/post/${post.uuid}/${bookmarkState ? `unbookmark` : `bookmark`}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) { // revert bookmark state if request failed
+            setBookmarkState(!bookmarkState);
+            post.bookmarks = (post.bookmarks ?? 0) + (bookmarkState ? -1 : 1);
+            post.hasBookmarked = bookmarkState;
+        }
+    }
+
     if (origin) {
         return (<div className={styles.inlinePost + " " + className} ref={ref}>
             <div className={styles.header}>
@@ -74,8 +96,8 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     <GrChat />
                     <span>{post.commentAmount}</span>
                 </div>
-                <div className={styles.action}>
-                    <GrBookmark />
+                <div className={styles.action + " " + styles.bookmark + " " + (post.hasBookmarked && styles.active)} onClick={toggleBookmark}>
+                    {post.hasBookmarked ? <FaBookmark /> : <FaRegBookmark />}
                     <span>{post.bookmarks}</span>
                 </div>
                 <div className={styles.action} style={{ marginLeft: 'auto' }}>
@@ -106,8 +128,8 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                         <GrChat />
                         <span>{post.commentAmount}</span>
                     </div>
-                    <div className={styles.action}>
-                        <GrBookmark />
+                    <div className={styles.action + " " + styles.bookmark + " " + (bookmarkState && styles.active)} onClick={toggleBookmark}>
+                        {bookmarkState ? <FaBookmark /> : <FaRegBookmark />}
                         <span>{post.bookmarks}</span>
                     </div>
                     {!reply && <div className={styles.action} style={{ marginLeft: 'auto' }}>
