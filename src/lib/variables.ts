@@ -1,7 +1,7 @@
 import pjson from '../../package.json'
 
 const version = pjson.version;
-const loginUrl = '/project/login';
+const loginUrl = '/login';
 
 export default {
     version,

@@ -8,7 +8,7 @@ import moment from "moment";
 import { Post } from "@/types/Post";
 import Link from "next/link";
 import NotFound from "@/styles/components/error/notFound/NotFound";
-import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
+import ReplyBar from "@/app/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useRef, useState } from "react";
 
 export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost, globalReplyBarState, onReplyBarToggle, linking }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void, globalReplyBarState?: string, onReplyBarToggle?: (postUuid: string) => void, linking?: boolean }) {
@@ -75,13 +75,13 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
             <div className={styles.header}>
                 <div className={styles.author}>
                     <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" />
-                    <Link href={`/project/profile/@${post.authorUsername}`}><span>{post.authorDisplayname}</span></Link>
+                    <Link href={`/profile/@${post.authorUsername}`}><span>{post.authorDisplayname}</span></Link>
                 </div>
                 <div className={styles.date}>
                     <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>
                 </div>
             </div>
-            <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: origin && !linking ? 'none' : 'initial' }} >
+            <Link href={`/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: origin && !linking ? 'none' : 'initial' }} >
                 <div className={styles.content}>
                     <p>{post.content}</p>
                 </div>

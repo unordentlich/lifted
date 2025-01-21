@@ -1,5 +1,5 @@
 'use client';
-import InlinePost from '@/app/project/home/components/inlinepost/InlinePost';
+import InlinePost from '@/app/home/components/inlinepost/InlinePost';
 import { Post } from '@/types/Post';
 import styles from './Post.module.css';
 import ReplyArrow from './replyArrow/ReplyArrow';

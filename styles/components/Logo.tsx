@@ -11,7 +11,7 @@ export default function Logo({ style, className }: { style?: React.CSSProperties
     style = { ...defaultStyle, ...style };
 
     return (
-        <Link href="/project/home">
+        <Link href="/home">
             <Image
                 style={style}
                 className={className}

@@ -7,7 +7,7 @@ import { GrUser, GrFormLock } from "react-icons/gr";
 
 export default function LoginForm() {
 
-    const redirectUrl = '/project/home';
+    const redirectUrl = '/home';
 
 
     const [errorMessage, setErrorMessage] = React.useState('');
