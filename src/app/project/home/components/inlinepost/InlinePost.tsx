@@ -11,7 +11,7 @@ import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/project/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useRef, useState } from "react";
 
-export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost, globalReplyBarState, onReplyBarToggle }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void, globalReplyBarState?: string, onReplyBarToggle?: (postUuid: string) => void }) {
+export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost, globalReplyBarState, onReplyBarToggle, linking }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void, globalReplyBarState?: string, onReplyBarToggle?: (postUuid: string) => void, linking?: boolean }) {
     const [likeState, setLikeState] = useState(post.hasLiked || false);
     const [bookmarkState, setBookmarkState] = useState(post.hasBookmarked || false);
 
@@ -81,7 +81,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>
                 </div>
             </div>
-            <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: origin ? 'none' : 'initial' }} >
+            <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: origin && !linking ? 'none' : 'initial' }} >
                 <div className={styles.content}>
                     <p>{post.content}</p>
                 </div>

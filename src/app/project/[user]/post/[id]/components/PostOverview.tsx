@@ -16,10 +16,6 @@ export default function PostOverview({ posts }: { posts: Post[] }) {
     const [activeReplyBar, setActiveReplyBar] = useState('');
     const [arrowStates, setArrowStates] = useState<{ [key: string]: { height: number; visible: boolean } }>({});
 
-    useEffect(() => {
-        console.log('Aktueller State:', activeReplyBar);
-    }, [activeReplyBar]);
-
     const addNewPost = (parentPost: Post, post: Post) => {
         setPostsArray((prevPosts) => [...prevPosts, post]);
         parentPost.commentAmount = (parentPost.commentAmount || 0) + 1;
