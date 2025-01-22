@@ -11,9 +11,11 @@ import NotFound from "@/styles/components/error/notFound/NotFound";
 import ReplyBar from "@/app/[user]/post/[id]/components/replyBar/ReplyBar";
 import { useRef, useState } from "react";
 
+const shareUrl = 'http://localhost:3000/';
 export default function InlinePost({ post, className, origin, reply, addArrowLength, addNewPost, globalReplyBarState, onReplyBarToggle, linking }: { post: Post, className?: string, origin?: boolean, reply?: boolean, addArrowLength?: (e: any) => void, addNewPost?: (post: Post) => void, globalReplyBarState?: string, onReplyBarToggle?: (postUuid: string) => void, linking?: boolean }) {
     const [likeState, setLikeState] = useState(post.hasLiked || false);
     const [bookmarkState, setBookmarkState] = useState(post.hasBookmarked || false);
+    const [shareAmountState, setShareAmountState] = useState(post.shareAmount || 0);
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
@@ -70,6 +72,35 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
         }
     }
 
+    const shareOption = async () => {
+        const shareData = {
+            title: 'lifted - Social Media for everyone',
+            text: `Check out ${post.authorDisplayname}'s post on lifted`,
+            url: shareUrl + post.authorUsername + '/post/' + post.id,
+        }
+
+        let shareSuccess = true;
+        try {
+            await navigator.share(shareData);
+        } catch (e) {
+            shareSuccess = false;
+        } finally {
+            if(shareSuccess) {
+                console.log('Shared successfully');
+                fetch(`/api/post/${post.uuid}/share`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                });
+                post.shareAmount = (post.shareAmount ?? 0) + 1;
+                setShareAmountState(post.shareAmount);
+                console.log('New share amount', post.shareAmount);
+            }
+        }
+    }
+
     if (origin) {
         return (<div className={styles.inlinePost + " " + className} ref={ref}>
             <div className={styles.header}>
@@ -99,9 +130,9 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     {post.hasBookmarked ? <FaBookmark /> : <FaRegBookmark />}
                     <span>{post.bookmarks}</span>
                 </div>
-                <div className={styles.action} style={{ marginLeft: 'auto' }}>
+                <div className={styles.action} style={{ marginLeft: 'auto' }} onClick={shareOption}>
                     <GrShareOption />
-                    <span>102</span>
+                    <span>{shareAmountState}</span>
                 </div>
             </div>
             <ReplyBar postUuid={post.uuid} addNewPost={addNewPostWithRef} />
@@ -131,9 +162,9 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                         {bookmarkState ? <FaBookmark /> : <FaRegBookmark />}
                         <span>{post.bookmarks}</span>
                     </div>
-                    {!reply && <div className={styles.action} style={{ marginLeft: 'auto' }}>
+                    {!reply && <div className={styles.action} style={{ marginLeft: 'auto' }} onClick={shareOption} >
                         <GrShareOption />
-                        <span>102</span>
+                        <span>{shareAmountState}</span>
                     </div>}
                     {reply && <div className={styles.date}>
                         <span title={(post.creationDate as Date).toLocaleString()}>{moment(post.creationDate).startOf("minutes").fromNow()}</span>

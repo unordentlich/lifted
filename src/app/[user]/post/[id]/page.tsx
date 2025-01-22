@@ -30,6 +30,7 @@ export default async function PostPage({ params }: { params: Promise<{ user: str
         posts.creation_date,
         posts.views,
         posts.author,
+        posts.shares,
         posts.response_to, -- Der Originalpost hat keine Antwort
         0 AS depth -- Originalpost ist auf Ebene 0
     FROM posts
@@ -46,6 +47,7 @@ export default async function PostPage({ params }: { params: Promise<{ user: str
         deeper_replies.creation_date,
         deeper_replies.views,
         deeper_replies.author,
+        deeper_replies.shares,
         deeper_replies.response_to,
         reply_hierarchy.depth + 1
     FROM reply_hierarchy
@@ -62,6 +64,7 @@ SELECT
     rh.author,
     rh.response_to,
     rh.depth,
+    rh.shares,
     users.display_name,
     users.username,
     (SELECT COUNT(*) FROM likes WHERE likes.post_uuid = rh.reply_uuid) AS likeAmount,
@@ -90,7 +93,8 @@ FROM reply_hierarchy rh
                         depth: element.depth,
                         hasLiked: element.hasLiked,
                         hasBookmarked: element.hasBookmarked,
-                        commentAmount: element.replyAmount
+                        commentAmount: element.replyAmount,
+                        shareAmount: element.shares,
                     });
                 });
             }

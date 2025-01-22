@@ -29,6 +29,7 @@ export default async function Home() {
     response_to,
     users.display_name,
     users.username,
+    shares,
     (SELECT COUNT(*) FROM likes WHERE likes.post_uuid = postUUID) AS likeAmount,
     (SELECT EXISTS(SELECT * FROM likes WHERE likes.post_uuid = postUUID AND likes.liker_uuid = ?)) AS hasLiked,
     (SELECT COUNT(*) FROM bookmarks WHERE bookmarks.post_uuid = postUUID) AS bookmarkAmount,
@@ -50,6 +51,7 @@ FROM posts
             existing: true,
             authorDisplayname: post.display_name,
             authorUsername: post.username,
+            shareAmount: post.shares,
         });
     }
     console.log(postArray);

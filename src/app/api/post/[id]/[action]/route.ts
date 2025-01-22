@@ -124,6 +124,15 @@ SELECT id, uuid, creation_date FROM posts WHERE id = LAST_INSERT_ID();
         creationDate: post.creationDate,
       }
     }), { status: 200 });
+  } else if(action === 'share') {
+    const [rows]: any = await pool.query(`
+      UPDATE posts SET shares = shares + 1 WHERE uuid = ?; SELECT shares FROM posts WHERE uuid = ?;`, [postUuid, postUuid]);
+
+    if (!rows[0].affectedRows || rows[0].affectedRows === 0) {
+      return new NextResponse(JSON.stringify({ message: "Invalid post" }), { status: 400 });
+    }
+
+    return new NextResponse(JSON.stringify({ message: "Post shared", newAmount: rows[0].shares }), { status: 200 });
   } else {
     return new NextResponse(JSON.stringify({ message: "Invalid action" }), { status: 400 });
   }
