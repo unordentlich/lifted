@@ -16,6 +16,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
     const [likeState, setLikeState] = useState(post.hasLiked || false);
     const [bookmarkState, setBookmarkState] = useState(post.hasBookmarked || false);
     const [shareAmountState, setShareAmountState] = useState(post.shareAmount || 0);
+    const [commentAmountState, setCommentAmountState] = useState(post.commentAmount || 0);
 
     if (!post || !post.existing) return <NotFound object="post" />;
     const ref = useRef<HTMLDivElement>(null);
@@ -27,6 +28,9 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
     const addNewPostWithRef = (p: Post) => {
         p.refPost = post;
         p.depth = (post.depth || 0) + 1;
+        post.commentAmount = (post.commentAmount || 0) + 1;
+        setCommentAmountState(post.commentAmount);
+        console.log('New post comment amount', post.commentAmount);
         addNewPost && addNewPost(p);
     }
 
@@ -96,7 +100,6 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                 });
                 post.shareAmount = (post.shareAmount ?? 0) + 1;
                 setShareAmountState(post.shareAmount);
-                console.log('New share amount', post.shareAmount);
             }
         }
     }
@@ -126,8 +129,8 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     <GrChat />
                     <span>{post.commentAmount}</span>
                 </div>
-                <div className={styles.action + " " + styles.bookmark + " " + (post.hasBookmarked && styles.active)} onClick={toggleBookmark}>
-                    {post.hasBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+                <div className={styles.action + " " + styles.bookmark + " " + (bookmarkState && styles.active)} onClick={toggleBookmark}>
+                    {bookmarkState ? <FaBookmark /> : <FaRegBookmark />}
                     <span>{post.bookmarks}</span>
                 </div>
                 <div className={styles.action} style={{ marginLeft: 'auto' }} onClick={shareOption}>
