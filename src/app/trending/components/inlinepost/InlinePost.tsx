@@ -127,7 +127,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                 </div>
                 <div className={styles.action}>
                     <GrChat />
-                    <span>{post.commentAmount}</span>
+                    <span>{commentAmountState}</span>
                 </div>
                 <div className={styles.action + " " + styles.bookmark + " " + (bookmarkState && styles.active)} onClick={toggleBookmark}>
                     {bookmarkState ? <FaBookmark /> : <FaRegBookmark />}
@@ -159,7 +159,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
                     </div>
                     <div className={styles.action} onClick={() => { onReplyBarToggle && onReplyBarToggle(post.uuid!) }}>
                         <GrChat />
-                        <span>{post.commentAmount}</span>
+                        <span>{commentAmountState}</span>
                     </div>
                     <div className={styles.action + " " + styles.bookmark + " " + (bookmarkState && styles.active)} onClick={toggleBookmark}>
                         {bookmarkState ? <FaBookmark /> : <FaRegBookmark />}

@@ -1,37 +1,58 @@
+'use client';
 import styles from "../navbar/Navbar.module.css";
 import * as Icons from "react-icons/gr";
 import { IconType } from "react-icons";
+import { usePathname } from "next/navigation";
+import path from "path";
+import Link from "next/link";
 
 export default function SidebarNavigation() {
+    const pathname = usePathname();
+
+    console.log(pathname);
 
     const menu = [
         {
             name: "Trending",
             icon: "GrDeploy",
-            position: "top"
+            position: "top",
+            path: "/trending",
+            active: false
         },
         {
             name: "Following",
             icon: "GrUserNew",
             position: "top",
-            active: true
+            path: "/following",
+            active: false
         },
         {
             name: "Bookmarks",
             icon: "GrBookmark",
-            position: "top"
+            position: "top",
+            path: "/bookmarks",
+            active: false
         },
         {
             name: "Settings",
             icon: "GrSettingsOption",
-            position: "bottom"
+            position: "bottom",
+            path: "/settings",
+            active: false
         },
         {
             name: "About",
             icon: "GrContactInfo",
-            position: "bottom"
+            position: "bottom",
+            path: "/about",
+            active: false
         }
-    ]
+    ];
+
+    const activeItem = menu.find(i => i.name.toLowerCase() === pathname.replace('/', ''));
+    if (activeItem) {
+        activeItem.active = true;
+    }
 
     return (
         <nav className={styles.sidebarNavigation}>
@@ -41,10 +62,10 @@ export default function SidebarNavigation() {
 
                     return (
                         <li key={index}>
-                            <a href="#" className={styles.navigationItem + (item.active ? " " + styles.active : "")}>
+                            <Link href={item.path} className={styles.navigationItem + (item.active ? " " + styles.active : "")}>
                                 <Icon />
                                 {item.name}
-                            </a>
+                            </Link>
                         </li>
                     )
                 })}
@@ -55,10 +76,10 @@ export default function SidebarNavigation() {
 
                     return (
                         <li key={index}>
-                            <a href="#" className={styles.navigationItem + (item.active ? " " + styles.active : "")}>
+                            <Link href={item.path} className={styles.navigationItem + (item.active ? " " + styles.active : "")}>
                                 <Icon />
                                 {item.name}
-                            </a>
+                            </Link>
                         </li>
                     )
                 })}

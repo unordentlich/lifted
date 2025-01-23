@@ -54,11 +54,10 @@ FROM posts
             shareAmount: post.shares,
         });
     }
-    console.log(postArray);
 
     return (
         <div>
-            <h3 style={{ marginBottom: '20px', marginTop: '10px', width: '100%' }}>Home</h3>
+            <h3 style={{ marginBottom: '20px', marginTop: '10px', width: '100%' }}>Trending</h3>
             <Feed posts={postArray} />
         </div>
 

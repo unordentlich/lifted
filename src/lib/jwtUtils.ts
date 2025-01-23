@@ -24,7 +24,6 @@ export async function verifyToken(token: string) {
     });
     return payload;
   } catch (e) {
-    //console.log("Token is invalid", e);
-    throw e;
+    return null;
   }
 };

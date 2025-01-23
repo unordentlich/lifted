@@ -16,4 +16,5 @@ export interface Post {
     hasBookmarked?: boolean;
     commentAmount?: number;
     shareAmount?: number;
+    isReply?: boolean;
 }

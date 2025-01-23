@@ -4,7 +4,7 @@ import { verifyToken } from './lib/jwtUtils';
 import variables from './lib/variables';
 
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const token = req.cookies.get('access_token');
 
     if (!token) {
@@ -12,7 +12,11 @@ export function middleware(req: NextRequest) {
     }
 
     try {
-        verifyToken(token.value);
+        var result = await verifyToken(token.value);
+        console.log(result);
+        if(!result) {
+            return NextResponse.redirect(new URL(variables.loginUrl, req.url));
+        }
     } catch (error) {
         return NextResponse.redirect(new URL(variables.loginUrl, req.url));
     }
@@ -21,5 +25,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/home', '/profile/:path*', '/:username/post/:path*'],
+    matcher: ['/following', '/trending', '/bookmarks', '/profile/:path*', '/:username/post/:path*'],
 };

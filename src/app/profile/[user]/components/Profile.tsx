@@ -1,6 +1,6 @@
 import styles from '../page.module.css';
 import Avatar from "@/styles/components/avatar/Avatar";
-import Feed from "../../../home/components/feed/Feed";
+import Feed from "../../../trending/components/feed/Feed";
 import { User } from '@/types/User';
 import NotFound from '@/styles/components/error/notFound/NotFound';
 import { Post } from '@/types/Post';
