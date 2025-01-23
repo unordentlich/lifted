@@ -90,7 +90,6 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
             shareSuccess = false;
         } finally {
             if(shareSuccess) {
-                console.log('Shared successfully');
                 fetch(`/api/post/${post.uuid}/share`, {
                     method: 'POST',
                     headers: {

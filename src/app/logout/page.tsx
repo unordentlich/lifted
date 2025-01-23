@@ -4,9 +4,7 @@ import variables from "@/lib/variables";
 
 export default function Logout() {
 
-    const logout = async (e: any) => {
-        console.log('logout');
-
+    const logout = async () => {
         fetch('/api/logout', {
             method: 'POST',
             headers: {
@@ -19,7 +17,7 @@ export default function Logout() {
         });
     };
 
-    logout(null);
+    logout();
 
     return (
         <div>

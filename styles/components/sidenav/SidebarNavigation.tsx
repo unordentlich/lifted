@@ -9,8 +9,6 @@ import Link from "next/link";
 export default function SidebarNavigation() {
     const pathname = usePathname();
 
-    console.log(pathname);
-
     const menu = [
         {
             name: "Trending",

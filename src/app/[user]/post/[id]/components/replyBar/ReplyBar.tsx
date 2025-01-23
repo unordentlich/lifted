@@ -38,7 +38,6 @@ export default function ReplyBar({ postUuid, addNewPost }: { postUuid?: string, 
         });
 
         let data = await response.json();
-        console.log(data);
         let post: Post = {
             uuid: data.reply.uuid,
             id: data.reply.id,

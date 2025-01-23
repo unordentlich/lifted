@@ -54,7 +54,6 @@ FROM posts
             shareAmount: post.shares,
         });
     }
-    console.log(postArray);
 
     return (
         <div>
