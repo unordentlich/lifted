@@ -3,7 +3,6 @@ import styles from "../navbar/Navbar.module.css";
 import * as Icons from "react-icons/gr";
 import { IconType } from "react-icons";
 import { usePathname } from "next/navigation";
-import path from "path";
 import Link from "next/link";
 
 export default function SidebarNavigation() {

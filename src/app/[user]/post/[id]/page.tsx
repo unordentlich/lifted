@@ -1,11 +1,10 @@
-import NotFound from "@/styles/components/error/notFound/NotFound";
-import styles from './page.module.css';
 import pool from "@/lib/database";
 import { verifyToken } from "@/lib/jwtUtils";
-import { cookies } from "next/headers";
+import NotFound from "@/styles/components/error/notFound/NotFound";
 import { Post } from "@/types/Post";
+import { cookies } from "next/headers";
 import PostOverview from "./components/PostOverview";
-import { QueryResult } from "mysql2";
+import styles from './page.module.css';
 
 export default async function PostPage({ params }: { params: Promise<{ user: string, id: string }> }) {
     const p = await params;
@@ -102,6 +101,8 @@ FROM reply_hierarchy rh
     } catch (e) {
         console.error(e);
     }
+
+    pool?.execute(`UPDATE posts SET views = views + 1 WHERE id = ?`, [p.id]);
 
     return (
         <div className={styles.flexContainer}>
