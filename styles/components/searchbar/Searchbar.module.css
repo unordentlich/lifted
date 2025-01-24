@@ -14,6 +14,7 @@
     background-color: rgb(241, 241, 241);
     border-radius: 100px;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+    text-align: center;
 }
 
 .searchbarIcon {
@@ -27,4 +28,6 @@
     font-size: var(--font-size-regular);
     display: flex;
     align-items: center;
+    transition: opacity 0.3s;
+    pointer-events: none;
 }
