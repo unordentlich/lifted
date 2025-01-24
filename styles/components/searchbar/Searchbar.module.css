@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 500px;
+    z-index: 50;
 }
 
 .searchbarContainer input {
@@ -15,6 +16,7 @@
     border-radius: 100px;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
     text-align: center;
+    transition: outline-color 0.3s;
 }
 
 .searchbarIcon {
@@ -30,4 +32,68 @@
     align-items: center;
     transition: opacity 0.3s;
     pointer-events: none;
+}
+
+.searchResults {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    margin-top: -25px;
+    padding: 5px;
+    padding-right: 5px;
+    padding-top: 30px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color-light);
+}
+
+.searchResults ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchResults ul li {
+    padding: 10px 15px; 
+    background-color: var(--color-surface);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    display: flex;
+    align-items: center;
+}
+
+.searchResults li .title {
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+    font-size: 9px;
+}
+
+.searchResults li .date {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
+}
+
+.searchResults li .commentBox {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+    align-items: center;
+}
+
+.searchResults .profileResult {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.searchResults .profileResult img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }

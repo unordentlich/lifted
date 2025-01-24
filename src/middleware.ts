@@ -13,7 +13,6 @@ export async function middleware(req: NextRequest) {
 
     try {
         var result = await verifyToken(token.value);
-        console.log(result);
         if(!result) {
             return NextResponse.redirect(new URL(variables.loginUrl, req.url));
         }

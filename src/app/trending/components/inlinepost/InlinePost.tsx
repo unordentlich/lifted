@@ -30,7 +30,6 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
         p.depth = (post.depth || 0) + 1;
         post.commentAmount = (post.commentAmount || 0) + 1;
         setCommentAmountState(post.commentAmount);
-        console.log('New post comment amount', post.commentAmount);
         addNewPost && addNewPost(p);
     }
 
