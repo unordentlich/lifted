@@ -8,7 +8,7 @@ import './page.static.css'
 export default function Login() {
     return (
         <div className={styles.container}>
-            <Logo style={{ height: '65px' }} />
+            <Logo style={{ height: '65px' }} deactivateResize />
             <div className={styles.form}>
                 <p className={styles.title}>Welcome back!</p>
                 <p className={styles.sub}>Please log in using your account to access lifted</p>

@@ -3,8 +3,8 @@ import styles from './Avatar.module.css';
 
 export default function StatusAvatar({ src, alt, className, style, status }: { src: string, alt: string, className?: string, style?: React.CSSProperties, status: Status }) {
     return (
-        <div className={styles.avatarContainer}>
-            <Avatar src={src} alt={alt} className={className} style={style} />
+        <div className={styles.avatarContainer + " " + className}>
+            <Avatar src={src} alt={alt} style={style} />
             <div style={{backgroundColor: status}} className={styles.statusPoint} />
         </div>
 

@@ -79,3 +79,32 @@
 .sidebarNavigation .bottom {
     margin-top: auto;
 }
+
+.avatarBox {
+    cursor: pointer;
+}
+
+.menuIcon {
+    display: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+    .sidebarNavigation {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        margin: 0 5px;
+    }
+
+    .avatarBox {
+        display: none !important;
+    }
+
+    .menuIcon {
+        display: block;
+    }
+}
