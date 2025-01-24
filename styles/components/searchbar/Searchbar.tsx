@@ -49,8 +49,8 @@ export default function Searchbar() {
                     <ul>
                         {searchResults.map((result: { id: Key; title: string; content: string; date: string; commentAmount: number; type: string, username: string, display_name: string }) => {
                             if (result.type === 'profile') return (
-                                <Link href={`/profile/@${result.username}`}>
-                                    <li className={styles.profileResult} key={result.username}>
+                                <Link href={`/profile/@${result.username}`} key={result.username}>
+                                    <li className={styles.profileResult}>
                                         <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" />
                                         <div>
                                             <p className={styles.description}>{result.display_name}</p>
@@ -60,8 +60,8 @@ export default function Searchbar() {
                                 </Link>
                             );
                             return (
-                                <Link href={`/${result.username}/post/${result.id}`}>
-                                    <li key={result.id}>
+                                <Link href={`/${result.username}/post/${result.id}`} key={result.username + "-" + result.id}>
+                                    <li>
                                         <div>
                                             <p className={styles.title}>Post</p>
                                             <p className={styles.description}>{result.content.substring(0, 34)}{result.content.length > 34 ? '...' : ''} <span className={styles.date}>&bull; {moment(result.date).startOf("minutes").fromNow()}</span></p>
