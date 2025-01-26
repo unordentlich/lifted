@@ -6,6 +6,7 @@ import variables from './lib/variables';
 
 export async function middleware(req: NextRequest) {
     const token = req.cookies.get('access_token');
+    var returnResponse = NextResponse.next();
 
     if (!token) {
         return NextResponse.redirect(new URL(variables.loginUrl, req.url));
@@ -16,11 +17,13 @@ export async function middleware(req: NextRequest) {
         if(!result) {
             return NextResponse.redirect(new URL(variables.loginUrl, req.url));
         }
+        returnResponse.cookies.set('user', JSON.stringify(result));
+        
     } catch (error) {
         return NextResponse.redirect(new URL(variables.loginUrl, req.url));
     }
 
-    return NextResponse.next();
+    return returnResponse;
 }
 
 export const config = {

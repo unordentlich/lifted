@@ -25,7 +25,7 @@ export async function POST(req: Request) {
         return new Response(JSON.stringify({ message: 'Invalid email or password' }), { status: 401 });
       }
 
-      const token = await generateToken({ uuid: user.uuid, email: user.email });
+      const token = await generateToken({ uuid: user.uuid, username: user.username, displayname: user.display_name, email: user.email });
 
       return new Response(JSON.stringify({ token: token }), { status: 200 });
     }

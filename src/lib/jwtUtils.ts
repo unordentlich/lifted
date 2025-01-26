@@ -2,10 +2,11 @@ import { jwtVerify, SignJWT } from "jose";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET || 'default_secrete');
 
-export async function generateToken(payload: { uuid: string; email: string }) {
+export async function generateToken(payload: { uuid: string; username: string; displayname: string; email: string }) {
   const token = await new SignJWT({
     uuid: payload.uuid,
-    email: payload.email,
+    username: payload.username,
+    displayname: payload.displayname
   })
     .setProtectedHeader({
       alg: 'HS256'

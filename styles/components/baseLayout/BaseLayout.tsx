@@ -1,8 +1,9 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Navbar from '../navbar/Navbar';
 import SidebarNavigation from '../sidenav/SidebarNavigation';
 import { usePathname } from 'next/navigation';
+import { useStore } from '@/lib/stores/authenticatorStore';
 
 export default function BaseLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
@@ -10,6 +11,19 @@ export default function BaseLayout({ children }: { children: ReactNode }) {
     const noSidebarRoutes = ['/login', '/logout'];
 
     const showSidebar = !noSidebarRoutes.includes(pathname);
+
+    const { user, setUser } = useStore();
+    useEffect(() => {
+        const userCookie = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("user="))
+            ?.split("=")[1];
+        if (userCookie) {
+            const user = JSON.parse(decodeURIComponent(userCookie));
+            setUser(user);
+            
+        }
+    }, []);
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
