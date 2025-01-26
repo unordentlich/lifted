@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useMemo } from 'react';
 import Navbar from '../navbar/Navbar';
 import SidebarNavigation from '../sidenav/SidebarNavigation';
 import { usePathname } from 'next/navigation';
@@ -13,15 +13,14 @@ export default function BaseLayout({ children }: { children: ReactNode }) {
     const showSidebar = !noSidebarRoutes.includes(pathname);
 
     const { user, setUser } = useStore();
-    useEffect(() => {
+    useMemo(() => {
         const userCookie = document.cookie
             .split("; ")
             .find((row) => row.startsWith("user="))
             ?.split("=")[1];
         if (userCookie) {
-            const user = JSON.parse(decodeURIComponent(userCookie));
-            setUser(user);
-            
+            const u = JSON.parse(decodeURIComponent(userCookie));
+            setUser(u);
         }
     }, []);
 
