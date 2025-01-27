@@ -61,7 +61,7 @@ FROM posts
             } else {
                 userObject = {
                     existing: true,
-                    uuid: rows[0].uuid,
+                    uuid: rows[0].author,
                     displayName: rows[0].display_name,
                     userName: rows[0].username,
                     email: rows[0].email,
