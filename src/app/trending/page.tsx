@@ -4,6 +4,7 @@ import pool from "@/lib/database";
 import { Post } from "@/types/Post";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/jwtUtils";
+import PostCreationBox from "./components/creationbox/PostCreationBox";
 
 export default async function Home() {
     const c = await cookies();
@@ -17,7 +18,7 @@ export default async function Home() {
         return <div></div>;
     }
 
-    let postArray: Post[] = [];
+    const postArray: Post[] = [];
     const [posts]: any[] = await pool.query(`
         SELECT
     posts.\`uuid\` AS postUUID,
@@ -58,7 +59,7 @@ FROM posts
     return (
         <div>
             <h3 style={{ marginBottom: '20px', marginTop: '10px', width: '100%' }}>Trending</h3>
-            <Feed posts={postArray} />
+            <Feed posts={postArray} includeCreationBox />
         </div>
 
     );
