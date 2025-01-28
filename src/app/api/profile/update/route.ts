@@ -45,7 +45,7 @@ export async function PUT(req: NextRequest) {
     query += ` WHERE uuid = ?`;
     values.push(userAccount.uuid);
 
-    let userAccountUpdate: { uuid: string; username: string; displayname: string; email: string };
+    let userAccountUpdate: { uuid: string; username: string; displayname: string; email: string; profile_picture?: boolean };
     userAccountUpdate = userAccount;
     if (username) {
         userAccountUpdate.username = username.toLowerCase().replace(/^\s+|\s+$/g, '');
@@ -53,7 +53,9 @@ export async function PUT(req: NextRequest) {
     if (displayName) {
         userAccountUpdate.displayname = displayName;
     }
-
+    if (profilePicture) {
+        userAccountUpdate.profile_picture = true;
+    }
     //todo check if username already taken
     const [rows]: any = await pool.query(query, values);
     return new NextResponse(JSON.stringify({ message: "Profile updated", newUser: userAccountUpdate}), { status: 200 });

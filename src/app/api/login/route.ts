@@ -2,7 +2,6 @@ import db from "@/lib/database";
 import { validatePassword } from "@/lib/encryption";
 import { generateToken } from "@/lib/jwtUtils";
 import { RowDataPacket } from "mysql2";
-import { NextApiResponse } from "next";
 
 
 export async function POST(req: Request) {
@@ -25,7 +24,7 @@ export async function POST(req: Request) {
         return new Response(JSON.stringify({ message: 'Invalid email or password' }), { status: 401 });
       }
 
-      const token = await generateToken({ uuid: user.uuid, username: user.username, displayname: user.display_name, email: user.email });
+      const token = await generateToken({ uuid: user.uuid, username: user.username, displayname: user.display_name, email: user.email, profile_picture: user.profile_picture });
 
       return new Response(JSON.stringify({ token: token }), { status: 200 });
     }

@@ -29,6 +29,7 @@ export default async function Home() {
     response_to,
     users.display_name,
     users.username,
+    users.profile_picture,
     shares,
     (SELECT COUNT(*) FROM likes WHERE likes.post_uuid = postUUID) AS likeAmount,
     (SELECT EXISTS(SELECT * FROM likes WHERE likes.post_uuid = postUUID AND likes.liker_uuid = ?)) AS hasLiked,
@@ -51,6 +52,7 @@ FROM posts
             existing: true,
             authorDisplayname: post.display_name,
             authorUsername: post.username,
+            authorProfilePicture: post.profile_picture,
             shareAmount: post.shares,
         });
     }

@@ -8,6 +8,7 @@ export interface Post {
     authorUuid?: string;
     authorDisplayname?: string;
     authorUsername?: string;
+    authorProfilePicture?: string;
     views?: number;
     existing: boolean;
     refPost?: Post;

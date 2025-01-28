@@ -41,6 +41,7 @@ export default async function ProjectProfilePage({
     response_to,
     users.display_name,
     users.username,
+    users.profile_picture,
     shares,
     (SELECT COUNT(*) FROM likes WHERE likes.post_uuid = postUUID) AS likeAmount,
     (SELECT EXISTS(SELECT * FROM likes WHERE likes.post_uuid = postUUID AND likes.liker_uuid = ?)) AS hasLiked,
@@ -65,6 +66,7 @@ FROM posts
                     displayName: rows[0].display_name,
                     userName: rows[0].username,
                     email: rows[0].email,
+                    profilePicture: rows[0].profile_picture,
                     createdAt: rows[0].created_at,
                 };
                 postAmount = rows[0].post_count;
@@ -84,6 +86,7 @@ FROM posts
                         authorUuid: row.author,
                         authorDisplayname: row.display_name,
                         authorUsername: row.username,
+                        authorProfilePicture: row.profile_picture,
                         views: row.views,
                         existing: true,
                         hasBookmarked: row.hasBookmarked,

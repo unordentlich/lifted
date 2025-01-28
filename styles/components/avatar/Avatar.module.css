@@ -1,6 +1,7 @@
 .avatar {
     height: 100%;
     width: auto;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     background-color: #f3f3f3;
     display: flex;
@@ -9,6 +10,7 @@
     font-size: 2rem;
     color: #333;
     border: 1px solid #ccc;
+    object-fit: cover;
 }
 
 .statusPoint {

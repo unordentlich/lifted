@@ -56,11 +56,47 @@ export default function Profile({ user, posts, postAmount, likesAmount, follower
         }
     };
 
+    const toBase64 = (file: any) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+
+    const onImageEdit = () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.click();
+        new Promise((resolve, reject) => {
+            input.onchange = (e) => {
+                if (input.files && input.files.length > 0) {
+                    resolve(toBase64(input.files[0]));
+                } else {
+                    reject('No file selected');
+                }
+            }
+        }).then((value) => {
+            fetch(`/api/profile/update`, {
+                body: JSON.stringify({
+                    profilePicture: value
+                    }),
+                method: 'PUT'
+            }).then(res => res.json()).then(data => {
+                console.log(data);
+                setUser(data.newUser);
+            });
+        });
+    }
+
     return (
         <div>
             <div className={styles.profileCard}>
                 <div className={styles.profileCardTopArea}>
-                    <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" style={{ height: '70%' }} />
+                    <div style={{ height: '70%', position: 'relative' }} className={styles.avatarContainer}>
+                    {isOwner && <GrEdit className={styles.editAvatarIcon} onClick={() => { onImageEdit() }} />}
+                    <Avatar src={`/api/image/${user.profilePicture}`} alt="avatar" />
+                    </div>
                     <div className={styles.nameInformation}>
                         <h4 className={styles.profileName}><span ref={displayNameRef}>{user.displayName}</span> {isOwner && <GrEdit className={styles.editIcon} onClick={() => { onClickEdit(displayNameRef) }} />}</h4>
                         <h4 className={styles.profileUsername}>@<span ref={usernameRef}>{user.userName}</span> {isOwner && <GrEdit className={styles.editIcon} onClick={() => { onClickEdit(usernameRef) }} />}</h4>

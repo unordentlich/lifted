@@ -18,7 +18,7 @@ export default function Navbar() {
             </div>
             <Searchbar />
             <Link href={`/profile/@${user.username}`} style={{ height: '70%' }}>
-                <StatusAvatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" status={Status.AWAY} className={styles.avatarBox} />
+                <StatusAvatar src={`/api/image/${user.profile_picture}`} alt="avatar" status={Status.AWAY} className={styles.avatarBox} />
             </Link>
             <GrMenu className={styles.menuIcon} />
         </nav>

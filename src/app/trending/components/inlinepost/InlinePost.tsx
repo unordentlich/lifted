@@ -106,7 +106,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
         return (<div className={styles.inlinePost + " " + className} ref={ref}>
             <div className={styles.header}>
                 <div className={styles.author}>
-                    <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" />
+                    <Avatar src={`/api/image/${post.authorProfilePicture}`} alt="avatar" />
                     <Link href={`/profile/@${post.authorUsername}`}><span>{post.authorDisplayname}</span></Link>
                 </div>
                 <div className={styles.date}>
@@ -143,7 +143,7 @@ export default function InlinePost({ post, className, origin, reply, addArrowLen
 
     return (
         <div className={styles.outerReplyBox} ref={ref}>
-            <Avatar src="https://avatars.githubusercontent.com/u/56507045?v=4" alt="avatar" className={styles.replyAvatar} />
+            <Avatar src={`/api/image/${post.authorProfilePicture}`} alt="avatar" className={styles.replyAvatar} />
             <div className={styles.inlinePost + " " + className + " " + (reply && styles.widthLimit)}>
                 <Link href={`/project/${post.authorUsername}/post/${post.id}`} style={{ pointerEvents: reply ? 'none' : 'initial' }} >
                     <div className={styles.content}>
